@@ -1,0 +1,33 @@
+package ${package};
+
+import ${entityImport};
+
+import javax.ejb.Stateless;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+@Named("${cdiName}")
+@Stateless
+public class ${entityName}Service {
+
+   @PersistenceContext
+   EntityManager em;
+
+   public ${entityName} find(long pk) {
+      return em.find(${entityName}.class, pk);
+   }
+
+   public void persist(${entityName} myEntity) {
+         if (myEntity.getId() == null) {
+            em.persist(myEntity);
+         } else {
+            em.merge(myEntity);
+         }
+   }
+
+   public void delete(long pk) {
+      em.remove(find(pk));
+   }
+
+}

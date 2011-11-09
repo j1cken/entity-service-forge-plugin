@@ -1,0 +1,72 @@
+package ${package};
+
+import ${entityImport};
+import ${package}.${entityName}Service;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import javax.inject.Inject;
+
+import static org.junit.Assert.*;
+
+@RunWith(Arquillian.class)
+public class ${entityName}ServiceTest {
+   @Inject
+   private ${entityName}Service ${cdiName}service;
+
+   @Deployment
+   public static JavaArchive createDeployment() {
+      return ShrinkWrap.create(JavaArchive.class, "${cdiName}service.jar")
+            .addClass(${entityName}Service.class)
+            .addClass(${entityName}.class)
+            .addAsResource("META-INF/persistence.xml")
+            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+   }
+
+   @Test
+   public void testIsDeployed() {
+      Assert.assertNotNull(${cdiName}service);
+   }
+
+   @Test
+   public void testCRUD() {
+      ${entityName} ${cdiName}1 = new ${entityName}();
+      //${cdiName}1.setName("Torben");
+
+      ${entityName} ${cdiName}2 = new ${entityName}();
+      //${cdiName}2.setName("Jaeger");
+
+      ${cdiName}service.persist(${cdiName}1);
+      ${cdiName}service.persist(${cdiName}2);
+
+      ${entityName} ${cdiName}Found1 = ${cdiName}service.find(1);
+      assertNotNull(${cdiName}Found1);
+      //assertTrue("Torben".equals(${cdiName}Found1.getName()));
+
+      //${cdiName}Found1.setName("TheFrog");
+      ${cdiName}service.persist(${cdiName}Found1);
+
+      ${entityName} ${cdiName}1Again = ${cdiName}service.find(1);
+      assertNotNull(${cdiName}1Again);
+      //assertTrue("TheFrog".equals(${cdiName}1Again.getName()));
+
+      ${entityName} ${cdiName}Found2 = ${cdiName}service.find(2);
+      assertNotNull(${cdiName}Found2);
+      //assertTrue("Jaeger".equals(${cdiName}Found2.getName()));
+
+      ${cdiName}service.delete(1);
+      ${cdiName}service.delete(2);
+
+      assertNull(${cdiName}service.find(2));
+      assertNull(${cdiName}service.find(3));
+
+   }
+}
