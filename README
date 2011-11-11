@@ -1,0 +1,15 @@
+This plugin will create a stateless entity bean service wrapper with CRUD operations. In addition an Arquillian test is generated for this service.
+
+The methods include:
+* service::find(long primaryKey)
+* service::persist(MyEntity entity)
+* service::delete(long primaryKey)
+
+
+INSTALL using forge
+===================
+
+forge git-plugin git://github.com/jicken/entity-service-forge-plugin.git
+
+
+
